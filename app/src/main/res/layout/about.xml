@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+              android:textAppearance="?android:attr/textAppearanceSmall" android:text="Санкт-Петербург 2016"
+              android:id="@+id/textView3"
+              android:gravity="center"
+              android:layout_alignParentBottom="true" android:layout_alignParentStart="true"
+              android:layout_marginBottom="20dp"/>
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Государственный университет аэрокосмического приборостроения"
+            android:id="@+id/textView2"
+            android:gravity="center" android:layout_alignParentTop="true" android:layout_alignParentStart="true"/>
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Xiamon V1.5 Beta"
+            android:id="@+id/textView4" android:layout_centerVertical="true" android:layout_centerHorizontal="true"
+            android:gravity="center_horizontal"/>
+    <TextView
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:textAppearance="?android:attr/textAppearanceMedium"
+			android:text="Дмитрий Жиляев"
+			android:id="@+id/textView"
+			android:gravity="center_horizontal"
+			android:layout_alignParentStart="true" android:layout_below="@+id/textView4"
+			android:layout_marginTop="20dp"/>
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Dmitriy.Zhilyaev@gmail.com"
+            android:id="@+id/textView5"
+            android:gravity="center_horizontal"
+            android:layout_below="@+id/textView" android:layout_alignParentStart="true"
+            android:layout_marginTop="10dp"/>
+    <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView"
+            android:src="@drawable/ic_launcher"
+            android:layout_above="@+id/textView4" android:layout_centerHorizontal="true"
+            android:layout_below="@+id/textView2" android:onClick="egg"/>
+    <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/dog" android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true" android:src="@drawable/dog" android:visibility="invisible"/>
+	<TextView
+			android:text="Music by uzerx"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:layout_above="@+id/textView3"
+			android:layout_centerHorizontal="true" android:id="@+id/textView6"/>
+</RelativeLayout>

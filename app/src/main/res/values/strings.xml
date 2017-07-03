@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Xiamon</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">About Xiamon</string>
+    <string name="action_records">Records</string>
+    <string name="gameover">Game Over</string>
+    <string name="score">Score</string>
+    <string name="startgame">Start Game</string>
+</resources>
