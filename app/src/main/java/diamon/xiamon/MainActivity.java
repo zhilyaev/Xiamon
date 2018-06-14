@@ -1,11 +1,16 @@
 package diamon.xiamon;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.ContentValues;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Vibrator;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -38,7 +43,6 @@ public class MainActivity extends Activity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         iniz();
-
 
         startgame.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -164,17 +168,19 @@ public class MainActivity extends Activity{
     }
 
     private void GameOver(){
+        vibr();
         startgame.setText("Let`s try again?");
         startgame.setEnabled(true);
         tvGameOver.setVisibility(View.VISIBLE);
         tvScore.setVisibility(View.VISIBLE);
         tvScore.setText("$> "+String.valueOf(SCORE)+" <$");
-        DatabaseHelper dbHelper = new DatabaseHelper(this, "mydb.db", null, 1);
-        SQLiteDatabase sdb = dbHelper.getWritableDatabase();
-        ContentValues cv = new ContentValues();
-        cv.put("score", SCORE);
-        sdb.insert("records", null, cv);
+        showInputDialog();
         isGameOver = true;
+    }
+
+    private void vibr() {
+        Vibrator vibr = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        vibr.vibrate(500);
     }
 
     @Override
@@ -287,5 +293,31 @@ public class MainActivity extends Activity{
     @Override
     protected void onStart() {
         super.onStart();
+    }
+
+    protected void showInputDialog() {
+        // get prompts.xml view
+        LayoutInflater layoutInflater = LayoutInflater.from(MainActivity.this);
+        View promptView = layoutInflater.inflate(R.layout.alert_dialog, null);
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
+        alertDialogBuilder.setView(promptView);
+
+        final EditText editText = (EditText) promptView.findViewById(R.id.edittext);
+        // setup a dialog window
+        alertDialogBuilder.setCancelable(false)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        DatabaseHelper dbHelper = new DatabaseHelper(getApplicationContext(), "mydb.db", null, 1);
+                        SQLiteDatabase sdb = dbHelper.getWritableDatabase();
+                        ContentValues cv = new ContentValues();
+                        cv.put("name", String.valueOf(editText.getText()));
+                        cv.put("score", SCORE);
+                        sdb.insert("records", null, cv);
+                    }
+                });
+
+        // create an alert dialog
+        AlertDialog alert = alertDialogBuilder.create();
+        alert.show();
     }
 }

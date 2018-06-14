@@ -29,7 +29,8 @@ public class Records extends Activity {
         while(crs.moveToNext()){
             String uscore = crs.getString(crs.getColumnIndex("score"));
             String udate = crs.getString(crs.getColumnIndex("timestamp"));
-            inlist[i] = udate + " : " +uscore;
+            String name = crs.getString(crs.getColumnIndex("name"));
+            inlist[i] = name + " - " + udate + " : " +uscore;
             i++;
         }
 

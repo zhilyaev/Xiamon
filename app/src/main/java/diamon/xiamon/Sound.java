@@ -7,7 +7,22 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 
 public class Sound extends Service {
-    MediaPlayer player;
+    private MediaPlayer player;
+
+    private static volatile Sound instance;
+
+    public static Sound getInstance() {
+        Sound localInstance = instance;
+        if (localInstance == null) {
+            synchronized (Sound.class) {
+                localInstance = instance;
+                if (localInstance == null) {
+                    instance = localInstance = new Sound();
+                }
+            }
+        }
+        return localInstance;
+    }
 
     @Override
     public void onCreate() {

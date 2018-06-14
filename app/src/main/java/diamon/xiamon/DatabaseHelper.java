@@ -15,6 +15,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements BaseColumns {
     private static final String DATABASE_CREATE_SCRIPT = "create table "
             + DATABASE_TABLE + " ("
             + BaseColumns._ID + " integer primary key autoincrement, "
+            + "name varchar(50), "
             + "timestamp DATETIME DEFAULT CURRENT_TIMESTAMP, "
             + "score long);";
 
