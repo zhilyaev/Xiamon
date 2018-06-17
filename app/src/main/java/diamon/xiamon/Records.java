@@ -4,9 +4,11 @@ import android.app.Activity;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class Records extends Activity {
 
@@ -16,6 +18,19 @@ public class Records extends Activity {
         setContentView(R.layout.activity_records);
 
         ListView lv = (ListView) findViewById(R.id.listview);
+
+        lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int pos, long id) {
+                // TODO Auto-generated method stub
+
+                Toast toast = Toast.makeText(getApplicationContext(),
+                        "POS := "+pos, Toast.LENGTH_SHORT);
+                toast.show();
+
+                return true;
+            }
+        });
 
         DatabaseHelper dbHelper = new DatabaseHelper(this, "mydb.db", null, 1);
         SQLiteDatabase sdb = dbHelper.getWritableDatabase();
