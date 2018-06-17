@@ -1,16 +1,47 @@
 package diamon.xiamon;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 public class Records extends Activity {
+    Record[] rs;
+    protected class Record {
+        public int id;
+        public int score;
+        public String name;
+        public long timestamp;
+    }
+
+    protected void chooseDialog(int pos) {
+        // setup the alert builder
+        AlertDialog.Builder builder = new AlertDialog.Builder(Records.this);
+        builder.setTitle("Choose an animal");
+
+        // add a list
+        final String[] animals = {"Edit", "Delete"};
+        builder.setItems(animals, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which) {
+                    case 0: // Edit
+
+                    case 1: // Delete
+
+                }
+            }
+        });
+
+// create and show the alert dialog
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,36 +49,34 @@ public class Records extends Activity {
         setContentView(R.layout.activity_records);
 
         ListView lv = (ListView) findViewById(R.id.listview);
-
         lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int pos, long id) {
                 // TODO Auto-generated method stub
-
-                Toast toast = Toast.makeText(getApplicationContext(),
-                        "POS := "+pos, Toast.LENGTH_SHORT);
-                toast.show();
-
+                chooseDialog(pos);
                 return true;
             }
         });
-
         DatabaseHelper dbHelper = new DatabaseHelper(this, "mydb.db", null, 1);
-        SQLiteDatabase sdb = dbHelper.getWritableDatabase();
-        String[] cols = new String[] {"score", "timestamp"};
         Cursor crs = dbHelper.getReadableDatabase().rawQuery("select * from records ORDER BY score DESC", null);
-        // лучше прямой запрос!
+
+        rs = new Record[crs.getCount()];
         String[] inlist = new String[crs.getCount()];
 
-        //crs.moveToFirst();// Извращенья
-        int i = 0;
-        while(crs.moveToNext()){
+        for (int i = 0; crs.moveToNext() ; i++){
+            Record r = new Record();
+            r.id = crs.getInt(crs.getColumnIndex("id"));
+            r.score = crs.getInt(crs.getColumnIndex("score"));
+            r.name = crs.getString(crs.getColumnIndex("name"));
+            r.timestamp = crs.getLong(crs.getColumnIndex("timestamp"));
+            rs[i] = r;
+
             String uscore = crs.getString(crs.getColumnIndex("score"));
             String udate = crs.getString(crs.getColumnIndex("timestamp"));
             String name = crs.getString(crs.getColumnIndex("name"));
             inlist[i] = name + " - " + udate + " : " +uscore;
-            i++;
         }
+
 
 
         // используем адаптер данных
