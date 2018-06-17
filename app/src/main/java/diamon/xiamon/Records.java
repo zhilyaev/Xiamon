@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -11,6 +12,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 public class Records extends Activity {
+    DatabaseHelper dbHelper;
+    SQLiteDatabase db;
     Record[] rs;
     protected class Record {
         public int id;
@@ -19,7 +22,7 @@ public class Records extends Activity {
         public long timestamp;
     }
 
-    protected void chooseDialog(int pos) {
+    protected void chooseDialog(final int pos) {
         // setup the alert builder
         AlertDialog.Builder builder = new AlertDialog.Builder(Records.this);
         builder.setTitle("Choose an animal");
@@ -31,9 +34,11 @@ public class Records extends Activity {
             public void onClick(DialogInterface dialog, int which) {
                 switch (which) {
                     case 0: // Edit
-
+                        // break;
                     case 1: // Delete
-
+                        /*Record r = rs[pos];
+                        db.delete("records", "id = ", new String[] {String.valueOf(r.id)});
+                        break;*/
                 }
             }
         });
@@ -57,8 +62,9 @@ public class Records extends Activity {
                 return true;
             }
         });
-        DatabaseHelper dbHelper = new DatabaseHelper(this, "mydb.db", null, 1);
-        Cursor crs = dbHelper.getReadableDatabase().rawQuery("select * from records ORDER BY score DESC", null);
+        dbHelper = new DatabaseHelper(this, "mydb.db", null, 1);
+        db = dbHelper.getReadableDatabase();
+        Cursor crs = db.rawQuery("select * from records ORDER BY score DESC", null);
 
         rs = new Record[crs.getCount()];
         String[] inlist = new String[crs.getCount()];
