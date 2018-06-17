@@ -30,6 +30,10 @@ public class DatabaseHelper extends SQLiteOpenHelper implements BaseColumns {
         super(context, name, factory, version);
     }
 
+    public DatabaseHelper (Context ctx) {
+        super(ctx, DATABASE_NAME, null, 1);
+    }
+
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(DATABASE_CREATE_SCRIPT);
@@ -44,5 +48,10 @@ public class DatabaseHelper extends SQLiteOpenHelper implements BaseColumns {
         db.execSQL("DROP TABLE IF IT EXIST " + DATABASE_TABLE);
         // Создаём новую таблицу
         onCreate(db);
+    }
+
+    public static void deleteById (final String id, DatabaseHelper dh){
+        dh.getWritableDatabase()
+                .delete(DATABASE_TABLE, "id = ?", new String[] {id});
     }
 }
